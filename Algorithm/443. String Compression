@@ -1,0 +1,58 @@
+class Solution:
+    def compress(self, chars: List[str]) -> int:
+        # Time = O(n)
+        # Space = O(1)
+        i = 0
+        n = len(chars)
+        cursor = 0
+        while i < n:
+            letter = chars[i]
+            count = 0
+            while i < n and chars[i] == letter:
+                i += 1
+                count += 1
+            if count == 1:
+                chars[cursor] = letter
+                cursor += 1
+            else:
+                chars[cursor] = letter
+                cursor += 1
+                for digit in str(count):
+                    chars[cursor] = digit
+                    cursor += 1
+        return cursor 
+
+    def compress2(self, chars: List[str]) -> int:
+        # Time = O(n)
+        # Space = O(1)
+        count = 0
+        n = len(chars)
+        cursor = 0
+        if len(chars) == 1:
+            cursor += 1
+            return cursor
+        for i in range(n-1): # consider the last number of char
+            count += 1
+            if chars[i] == chars[i+1]:
+                continue
+            if chars[i] != chars[i+1] and count == 1:
+                chars[cursor] = chars[i]
+                cursor += 1
+                count = 0
+            else:
+                chars[cursor] = chars[i]
+                cursor += 1
+                for digit in str(count):
+                    chars[cursor] = digit
+                    cursor += 1
+                count = 0
+        if count == 0:
+            chars[cursor] = chars[n-1]
+            cursor += 1
+        else:
+            chars[cursor] = chars[n-1]
+            cursor += 1
+            for digit in str(count+1):
+                chars[cursor] = digit
+                cursor += 1
+        return cursor
